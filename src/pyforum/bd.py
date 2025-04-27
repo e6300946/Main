@@ -47,13 +47,13 @@ class BD:
                 return u
     
     def sauvegardeDutilisateurs(self):
-        with open('src/pyforum/data/utilisateurs.json', 'r', encoding='utf-8') as fichier:
+        with open('src/pyforum/utilisateurs.json', 'r', encoding='utf-8') as fichier:
             data = json.load(fichier)
         
         
-        nouvelutilisateur = BD.creer_utilisateur(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
+        nouvelutilisateur = self.creer_utilisateur(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
         data.append(nouvelutilisateur.to_dict())
-        with open('src/pyforum/datautilisateurs.jsonn', 'w', encoding='utf-8') as fichier:
+        with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
             json.dump(data, fichier, ensure_ascii = False, indent = 4)
 
 bd = BD()
