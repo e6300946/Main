@@ -2,6 +2,7 @@
 #import des modules
 import json
 import csv
+from datetime import datetime
 
 #import des classes
 from pyforum.utilisateur import Utilisateur
@@ -61,7 +62,7 @@ class BD:
 
    
 
-    def creer_forum(self, nom: str, id: str, listePublications: list, description: str) -> Forum:
+    def creer_forum(self, nom: str, listePublications: list, description: str) -> Forum:
         #                ^^^^^^
         #                Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer un forum
@@ -93,19 +94,21 @@ class BD:
 
 
 
-    def creer_publication(self, titre: str, identifiant: str, contenu: str, date_creation: str):
+    def creer_publication(self, titre: str, contenu: str, date_creation = datetime.now):
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer une publication
-        if identifiant in [p.identifiant for p in self.publications]:
+        if titre in [p.titre for p in self.publications]:
             print(f"[Simulé] La publication {titre} est déjà publiée.")
             return
         
+        
         #créer un nouvel identifiant pour les publications
         new_id = max([p.id for p in self.publications], default=0) + 1
-
+        #ajout de la date de création
+        date_creation= datetime.now()
         # Instancier une nouvelle publication et l'ajouter à la liste
-        p = publication(new_id, titre, identifiant, contenu, date_creation)
+        p = publication(new_id, titre, contenu, date_creation.strftime("%Y-%m-%d %H:%M:%S"))
         self.publications.append(f)
         print(f"[Simulé] Sauvegarde de la nouvelle publication: {p}")
 
