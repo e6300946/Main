@@ -144,10 +144,13 @@ class BD:
 
     def obtenir_publication_par_titre(self, titre_publication):
         # TODO: Implanter la logique pour chercher une publication à partir de son titre
-        pass
+        for p in self.publications:
+            if p.titre == titre_publication:
+                return p
 
     def mettre_a_jour_forum(self, forum):
         #                         ^^^^^^
         #                         Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour mettre à jour le forum et retourner le forum mis à jour
         pass
+  
