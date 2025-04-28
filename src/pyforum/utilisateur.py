@@ -13,4 +13,5 @@ class Utilisateur():
         return f"Utilisateur(id={self.id}, username='{self.username}', adresse courriel='{self.adresseCourriel}', mot de passe='{self.motDePasse}')"
     
     def to_dict(self):
+        """Cette méthode permet d'ajouter les attributs de la classe utilisateurs dans un dictionnaire"""
         return {"id":self.id, "username":self.username, "adresse Courriel":self.adresseCourriel, "motDePasse":self.motDePasse, "liste de forums":self.listeForums}
