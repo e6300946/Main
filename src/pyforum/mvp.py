@@ -27,7 +27,7 @@ def afficher_menu():
 def main():
     print ("hello")
     # Initialisation de la base de données
-    'db = BD() '
+    db = BD() 
     
     
 
@@ -49,10 +49,15 @@ def main():
             print ( "voulez vous continuer ? (saisir oui/non) ")
             reponse = input("Réponse : ")
             while reponse == "oui":
+                username = input("Entrez le nom d'utilisateur:")
+                adresseCourriel = input("Entrez l'adresse courriel de l'utilisateur:")
+                motDePasse = input("Entrez le  mot de passe pour cet utilisateur:")
+                listeForums = [input("Entrez les forums de cette utilisateur:")]
     
                 print ("Veuillez entrer les informations suivantes :")
-                print (BD.creer_utilisateur)
-                print('votre compte utilisateur a été créé avec succès!')
+                db.creer_utilisateur(username=username, adresseCourriel=adresseCourriel, motDePasse=motDePasse, listeForums=listeForums)
+                db.sauvegardeDutilisateurs()
+                #print('votre compte utilisateur a été créé avec succès!')
             if reponse == "non":
                 print (afficher_menu)
             

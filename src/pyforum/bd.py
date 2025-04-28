@@ -6,6 +6,9 @@ import csv
 #import des classes
 from pyforum.utilisateur import Utilisateur
 from pyforum.forum import Forum
+from pyforum.publication import publication
+
+
 
 
 class BD:
@@ -15,7 +18,7 @@ class BD:
         """Constructeur de la classe permettant de gérer les différents attributs de la classe base de données"""
         self.utilisateurs: list[Utilisateur] = []
         self.forums: list[Forum] = []
-        self.publications = []
+        self.publications: list[publication] = []
         self.commentaires = []
         self.utilisateurs_forums = {}
         print("Base de données initialisée.")
@@ -34,9 +37,9 @@ class BD:
         new_id = max([u.id for u in self.utilisateurs], default=0) + 1
 
         # Instancier un nouvel utilisateur et l'ajouter à la liste
-        u = Utilisateur(new_id, username, adresseCourriel, motDePasse, listeForums = [])
+        u = Utilisateur(new_id, username, adresseCourriel, motDePasse, listeForums)
         self.utilisateurs.append(u)
-        print(f"[Simulé] Sauvegarde du nouveau utilisateur: {u}")
+        #print(f"[Simulé] Sauvegarde du nouveau utilisateur: {u}")
 
         # Retourner l'utilisateur créé
         return u
@@ -47,14 +50,14 @@ class BD:
                 return u
     
     def sauvegardeDutilisateurs(self):
-        with open('src/pyforum/utilisateurs.json', 'r', encoding='utf-8') as fichier:
-            data = json.load(fichier)
-        
-        
-        nouvelutilisateur = self.creer_utilisateur(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
-        data.append(nouvelutilisateur.to_dict())
-        with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
-            json.dump(data, fichier, ensure_ascii = False, indent = 4)
+        for u in self.utilisateurs:
+            with open('src/pyforum/data/utilisateurs.json', 'r', encoding='utf-8') as fichier:
+                data = json.load(fichier)
+            
+            
+            data.append(u.to_dict())
+            with open('src/pyforum/data/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+                json.dump(data, fichier, ensure_ascii = False, indent = 4)
 
    
 
