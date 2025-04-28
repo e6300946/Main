@@ -56,10 +56,8 @@ class BD:
         with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
             json.dump(data, fichier, ensure_ascii = False, indent = 4)
 
-bd = BD()
-bd.sauvegardeDutilisateurs()      
+   
 
-'''
     def creer_forum(self, nom: str, id: str, listePublications: list, description: str) -> Forum:
         #                ^^^^^^
         #                Vous devez ajouter les autres paramètres requis
@@ -67,6 +65,30 @@ bd.sauvegardeDutilisateurs()
         if nom in [f.nom for f in self.forums]:
             print(f"[Simulé] Le forum {nom} existe déjà.")
             return
+ 
+    # Créer un nouvel identifiant pour l'utilisateur
+        new_id = max([f.id for f in self.forums], default=0) + 1
+
+    # Instancier un nouvel utilisateur et l'ajouter à la liste
+        f = Forum(new_id, nom, listePublications, description)
+        self.forums.append(f)
+        print(f"[Simulé] Sauvegarde du nouveau forum: {f}")
+
+        # Retourner le forum créé
+        return f
+    
+    
+    def sauvegardeDeForums(self):
+        with open('src/pyforum/utilisateurs.json', 'r', encoding='utf-8') as fichier:
+            data = json.load(fichier)
+        
+        
+        nouveauForum = self.creer_forum(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
+        data.append(nouveauForum.to_dict())
+        with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+            json.dump(data, fichier, ensure_ascii = False, indent = 4)
+
+
 
     def creer_publication(self, publication):
         #                       ^^^^^^^^^^^
@@ -82,7 +104,9 @@ bd.sauvegardeDutilisateurs()
 
     def obtenir_forum_par_nom(self, nom_forum):
         # TODO: Implanter la logique pour chercher un forum à partir de son nom
-        pass
+        for f in self.forums:
+            if f.nom == nom_forum:
+                return f
 
     def obtenir_publication_par_titre(self, titre_publication):
         # TODO: Implanter la logique pour chercher une publication à partir de son titre
@@ -93,4 +117,3 @@ bd.sauvegardeDutilisateurs()
         #                         Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour mettre à jour le forum et retourner le forum mis à jour
         pass
-'''
