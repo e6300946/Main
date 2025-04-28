@@ -1,6 +1,6 @@
 # Importation des classes nécessaires
 from time import sleep
-
+from pyforum.bd import BD
 
 
 def liste_vide ():
@@ -51,7 +51,7 @@ def main():
             while reponse == "oui":
     
                 print ("Veuillez entrer les informations suivantes :")
-                print (cree_utilisateur)
+                print (BD.creer_utilisateur)
                 print('votre compte utilisateur a été créé avec succès!')
             if reponse == "non":
                 print (afficher_menu)
@@ -149,3 +149,6 @@ def main():
         sleep(1)  # Pause de 1 secondes pour rendre l'interface plus agréable
 if __name__ == "__main__":
     main().main()  # Appelle la méthode `main()` de la classe `main`
+
+
+    
