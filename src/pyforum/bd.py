@@ -8,6 +8,7 @@ from datetime import datetime
 from pyforum.utilisateur import Utilisateur
 from pyforum.forum import Forum
 from pyforum.publication import publication
+from pyforum.commentaire import Commentaire
 
 
 
@@ -20,7 +21,7 @@ class BD:
         self.utilisateurs: list[Utilisateur] = []
         self.forums: list[Forum] = []
         self.publications: list[publication] = []
-        self.commentaires = []
+        self.commentaires: list[Commentaire] = []
         self.utilisateurs_forums = {}
         print("Base de données initialisée.")
 
@@ -94,7 +95,7 @@ class BD:
 
 
 
-    def creer_publication(self, titre: str, contenu: str, date_creation = datetime.now):
+    def creer_publication(self, titre: str, contenu: str, identifiantAuteur :str , identifiantForum :str, listeCommentaires :list, date_creation = datetime.now,):
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer une publication
@@ -108,36 +109,60 @@ class BD:
         #ajout de la date de création
         date_creation= datetime.now()
         # Instancier une nouvelle publication et l'ajouter à la liste
-        p = publication(new_id, titre, contenu, date_creation.strftime("%Y-%m-%d %H:%M:%S"))
-        self.publications.append(f)
+        p = publication(new_id, titre, contenu, identifiantAuteur, identifiantForum , listeCommentaires,  date_creation.strftime("%Y-%m-%d %H:%M:%S"))
+        self.publications.append(p)
         print(f"[Simulé] Sauvegarde de la nouvelle publication: {p}")
 
         # Retourner la nouvelle publication créée
         return p
     
     def sauvegardeDePublications(self):
+        for p in self.publications:
+            with open('src\pyforum\data\publications.json', 'r', encoding='utf-8') as fichier:
+                data = json.load(fichier)
+            
+            
+            data.append(p.to_dict())
+            with open('src\pyforum\data\publications.json', 'w', encoding='utf-8') as fichier:
+                json.dump(data, fichier, ensure_ascii = False, indent = 4)
+        
+    def creer_commentaire(self, id: str, auteur_id: str, contenu: str, publication_id: str):
+        #                       ^^^^^^^^^^^
+        #                       Vous devez ajouter les autres paramètres requis
+        # TODO: Implanter la logique pour créer un commentaire
+        if id in [c.id for c in self.commentaires]:
+            print(f"[Simulé] Le commentaire {contenu} existe déjà.")
 
-        champs = ["titre", "identifiant", "contenu", "date_creation"]
+        #créer un nouvel identifiant pour les commentaires
+        new_id = max([c.id for c in self.commentaires], default=0) + 1 
+        new_author_id = max([c.auteur_id for c in self.commentaires], default=0) + 1
+        new_post_id = max([c.publication_id for c in self.commentaires], default=0) + 1
+
+        c = Commentaire(new_id, new_author_id, contenu, new_post_id)
+        self.commentaires.append(c)
+        print(f"[Simulé] Sauvegarde du nouveau commentaire: {c}")
+
+        return c
+    
+    def sauvegardeDesCommentaires(self):
+
+        champs = ["identifiant", "identifiant de l'auteur", "contenu", "identifiant de la publication"]
         données = [p.to_dict() for p in self.publications]
 
         identifiants_connus = [str(p["identifiant"]) for p in données]
 
-        with open('src/pyforum/data/publicationsInitiales.csv', 'r', newline='', encoding='utf-8') as fichierInitiale:
-            publicationsInitiales = (csv.DictReader(fichierInitiale))
-            for publications in publicationsInitiales:
-                if str(publications['identifiant']) not in identifiants_connus:
-                    données.append(publications)
+        with open('src\pyforum\data\commentairesInitiales.csv', 'r', newline='', encoding='utf-8') as fichierInitiale:
+            commentairesInitiaux = (csv.DictReader(fichierInitiale))
+            for commentaires in commentairesInitiaux:
+                if str(commentaires['identifiant']) not in identifiants_connus:
+                    données.append(commentaires)
             
-        with open('src\pyforum\data\publications.csv', 'w', newline='', encoding='utf-8') as fichier:
+        with open('src\pyforum\data\commentaires.csv', 'w', newline='', encoding='utf-8') as fichier:
             écrivain = csv.DictWriter(fichier, fieldnames=champs)
             écrivain.writeheader()
             écrivain.writerows(données)
 
-    def creer_commentaire(self, commentaire):
-        #                       ^^^^^^^^^^^
-        #                       Vous devez ajouter les autres paramètres requis
-        # TODO: Implanter la logique pour créer un commentaire
-        pass
+    
 
     def obtenir_forum_par_nom(self, nom_forum):
         # TODO: Implanter la logique pour chercher un forum à partir de son nom
@@ -155,5 +180,5 @@ class BD:
         #                         ^^^^^^
         #                         Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour mettre à jour le forum et retourner le forum mis à jour
-        pass
+        #a comleter
   
