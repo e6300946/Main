@@ -1,5 +1,6 @@
 # Importation des classes nécessaires
 from time import sleep
+from datetime import datetime
 from pyforum.bd import BD
 
 
@@ -49,13 +50,14 @@ def main():
             print ( "voulez vous continuer ? (saisir oui/non) ")
             reponse = input("Réponse : ")
             while reponse == "oui":
+
+                print ("Veuillez entrer les informations suivantes :")
                 username = input("Entrez le nom d'utilisateur:")
                 adresseCourriel = input("Entrez l'adresse courriel de l'utilisateur:")
                 motDePasse = input("Entrez le  mot de passe pour cet utilisateur:")
                 listeForums = [input("Entrez les forums de cette utilisateur:")]
-    
-                print ("Veuillez entrer les informations suivantes :")
-                db.creer_utilisateur(username=username, adresseCourriel=adresseCourriel, motDePasse=motDePasse, listeForums=listeForums)
+
+                db.creer_utilisateur(username = username, adresseCourriel=adresseCourriel, motDePasse=motDePasse, listeForums=listeForums)
                 db.sauvegardeDutilisateurs()
                 #print('votre compte utilisateur a été créé avec succès!')
             if reponse == "non":
@@ -78,21 +80,16 @@ def main():
             reponse = input("Réponse : ")
             while reponse == "oui":
                 print ("Veuillez entrer les informations suivantes :")
-                print (cree_forum)
-                
+                nom = input("Entrez le nom du forum que vous voulez créer:")
+                description = input("Entrez la description du forum que vous voulez créer:")
+                listePublications = [input("Entrez les publications du forum que vous voulez créer:")]
+                print (db.creer_forum(nom = nom, description = description, listePublications = listePublications))
                 print ("votre forum de discussion a été créé avec succès.")
+
             if reponse == "non":
                 print (afficher_menu)
             else :
                 print ( 'veuillez entrer une réponse valide. (oui/non)')
-            
-            
-
-            
-                
-
-                
-                
 
                 "# TODO: Ajouter ici la logique pour demander des informations à l'utilisateur"
                 "# TODO: Ajouter l'appel à la base de donnée pour créer le forum "
@@ -102,7 +99,11 @@ def main():
                 # Créer une publication
                 print("Bienvenue dans le module de création de publication")
                 print("Suivez les instructions suivante pour créer une publication.")
-                print (cree_publication)
+                titre = input("Entrez le titre de la publication que vous voulez créer:")
+                contenu = input("Entrez le contenu de la publication que vous voulez créer:")
+                #Faut-il créer une fonction qui mettra automatiquement la date d'aujhourd'hui ou c'est l'utilisateur qui entre la date?
+                
+                print (db.creer_publication(titre = titre, contenu = contenu, date_creation= datetime.now()))
                 print ("votre publication a été créée avec succès.")
                 
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
