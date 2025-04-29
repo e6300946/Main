@@ -8,3 +8,4 @@ class Commentaire:
     def __repr__(self):
         return (f"Commentaire(id={self.id}, auteur_id={self.auteur_id}, "
                 f"contenu={self.contenu}, publication_id={self.publication_id})")
+    "cette méthode permet d'afficher en format lisible les attributs de la classe commentaire"
