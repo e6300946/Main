@@ -1,7 +1,7 @@
 class Forum():
     '''Classe permettant de gérer les forum'''
 
-    def __init__(self, id, nom, listePublications, description = None):
+    def __init__(self, id :str, nom :str, listePublications :list, description :str):
         '''Constructeur de la classe permettant de gérer les différents attributs de la classe forum'''
         self.id = id
         self.nom = nom
