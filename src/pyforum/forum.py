@@ -10,7 +10,7 @@ class Forum():
 
     def __str__(self):
         '''Cette méthode permet d'afficher les attributs de la classe Forum en format lisible'''
-        return f"Forum(id={self.id}, nom='{self.nom}', liste de publication='{self.listePublications}', description='{self.description}')"
+        return f"id:{self.id}, nom:{self.nom}, liste de publication:{self.listePublications}, description:{self.description}"
     
     def to_dict(self):
         return {"id":self.id, "nom":self.nom, "liste de Publications":self.listePublications, "description":self.description}
