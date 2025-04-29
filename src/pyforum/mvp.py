@@ -20,8 +20,9 @@ def afficher_menu():
     print("2. Créer un forum")
     print("3. Créer une publication")
     print("4. Ajouter un commentaire à une publication")
-    print("5. accédée a un forum")
-    print("6. Quitter")
+    print("5. accédée a un forum ou une publication")
+    print("6. Rejoindre un forum")
+    print("7. Quitter")
     
 
 
@@ -101,8 +102,6 @@ def main():
                 print("Suivez les instructions suivante pour créer une publication.")
                 titre = input("Entrez le titre de la publication que vous voulez créer:")
                 contenu = input("Entrez le contenu de la publication que vous voulez créer:")
-                #Faut-il créer une fonction qui mettra automatiquement la date d'aujhourd'hui ou c'est l'utilisateur qui entre la date?
-                
                 print (db.creer_publication(titre = titre, contenu = contenu, date_creation= datetime.now()))
                 print ("votre publication a été créée avec succès.")
                 
@@ -113,7 +112,7 @@ def main():
                 # Ajouter un commentaire
                 print ("Bienvenue dans le module d'ajout de commentaire")
                 print ("Suivez les instructions suivante pour ajouter un commentaire à une publication.")
-                print (cree_commentaire)
+                print (db.creer_commentaire)
                 print ("votre commentaire a été ajouté avec succès.")
                 
 
@@ -127,7 +126,7 @@ def main():
                 print ("voulz chercher un forum ou une publication ? (saisir forum/publication)")
                 reponse = input ("Réponse : ")
                 while reponse != "forum" and reponse != "publication":
-                    print ("Veuillez entrer 'forum' ou 'publication'")
+                    print ("Veuillez entrer 'forum' ou 'publication")
                     reponse = input ("Réponse : ")
             
                 if reponse == "forum":
@@ -140,11 +139,25 @@ def main():
                     print ("Veuillez entrer le nom de la publication que vous souhaitez rejoindre.")        
                 print (cree_joindre_forum) 
                 print ("vous avez rejoint ces forums avec succès.")
-                print 
+                 
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
                 # TODO: Ajouter les appels à la base de donnée pour ajouter l'utilisateur au forum
-
         elif choix == '6':
+                        # Rejoindre un forum
+                        print("Bienvenue dans le module de rejoindre un forum")
+                        print("Suivez les instructions suivante pour rejoindre un forum.")
+                        print ("voulez vous rejoindre un forum ? (saisir oui/non)")
+                        print ("vous avez rejoint ce forum avec succès.")
+                        reponse = input("Réponse : ")
+                        while reponse == "oui":
+                            print (mettre_a_jour_forum)
+                            break
+                        else:
+                             return (main)
+                            
+                       
+                        
+        elif choix == '7':
                 # Quitter le programme
                 print("\nMerci d'avoir utilisé PyForum. À bientôt!")
                 break
