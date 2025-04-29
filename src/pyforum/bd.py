@@ -180,5 +180,5 @@ class BD:
         #                         ^^^^^^
         #                         Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour mettre à jour le forum et retourner le forum mis à jour
-        pass
+        #a comleter
   
