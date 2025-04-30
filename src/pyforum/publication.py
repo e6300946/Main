@@ -7,7 +7,7 @@ class publication():
         self.date_creation = date_creation
         self.identifiantAuteur = identifiantAuteur
         self.identifiantForum = identifiantForum
-        self.listeCommentaires = listeCommentaires
+        self.listeCommentaires = []
 
 
     def __str__(self):
