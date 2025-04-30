@@ -103,8 +103,15 @@ def main():
                 print("Suivez les instructions suivante pour créer une publication.")
                 titre = input("Entrez le titre de la publication que vous voulez créer:")
                 contenu = input("Entrez le contenu de la publication que vous voulez créer:")
-                listeCommentaires = input("Entrez les commentaires de la publication que vous voulez créer:")
-                print (db.creer_publication(titre = titre, contenu = contenu, listeCommentaires = listeCommentaires, date_creation= datetime.now()))
+                listeCommentaires = []
+                print("Début de saisie des commentaires.")
+                
+                while True:
+                    commentaire = input("Entrez un commentaire (ou appuyez sur Entrée pour terminer) : ")
+                    if commentaire == "":
+                        break
+                    listeCommentaires.append(commentaire)
+                print(db.creer_publication(titre=titre, contenu=contenu, listeCommentaires=listeCommentaires))
                 db.sauvegardeDePublications()
                 print ("votre publication a été créée avec succès.")
                 
@@ -115,7 +122,10 @@ def main():
                 # Ajouter un commentaire
                 print ("Bienvenue dans le module d'ajout de commentaire")
                 print ("Suivez les instructions suivante pour ajouter un commentaire à une publication.")
-                print (db.creer_commentaire)
+                contenu = input("Entrez le ccommentaire que vous voulez publier:")
+                id = input("Entrez un l'identifiant de ce commentaire")
+                print (db.creer_commentaire(id = id, contenu = contenu))
+                db.sauvegardeDesCommentaires()
                 print ("votre commentaire a été ajouté avec succès.")
                 
 
@@ -133,15 +143,13 @@ def main():
                     reponse = input ("Réponse : ")
             
                 if reponse == "forum":
-                    print (obtenir_forum_par_nom)
+                    print (db.obtenir_forum_par_nom)
 
                     print ("vous avez rejoint ce forum avec succès.")
 
                 elif reponse == "publication":
-                    print (obtenir_publication_par_titre)
-                    print ("Veuillez entrer le nom de la publication que vous souhaitez rejoindre.")        
-                print (cree_joindre_forum) 
-                print ("vous avez rejoint ces forums avec succès.")
+                    print (db.obtenir_publication_par_titre)
+                    
                  
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
                 # TODO: Ajouter les appels à la base de donnée pour ajouter l'utilisateur au forum

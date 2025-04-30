@@ -102,7 +102,7 @@ class BD:
 
 
 
-    def creer_publication(self, titre: str, contenu: str, listeCommentaires :list, date_creation = datetime.now,):
+    def creer_publication(self, titre: str, contenu: str, listeCommentaires: list, date_creation=datetime.now()):
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer une publication
@@ -110,15 +110,22 @@ class BD:
             print(f"[Simulé] La publication {titre} est déjà publiée.")
             return
         
-        
+        while True:
+            commentaire = input("Entrez un commentaire (ou appuyez sur Entrée pour terminer) :")
+            if commentaire == "":
+                break
+            listeCommentaires.append(commentaire)
+            
+
         #créer un nouvel identifiant pour les publications
+        new_id = max([p.identifiant for p in self.publications], default=0) + 1
         new_author_id = max([p.identifiantAuteur for p in self.publications], default=0) + 1
         new_forum_id = max([p.identifiantForum for p in self.publications], default=0) + 1
 
         #ajout de la date de création
         date_creation= datetime.now()
         # Instancier une nouvelle publication et l'ajouter à la liste
-        p = publication(new_author_id, new_forum_id, titre, contenu, listeCommentaires, date_creation.strftime("%Y-%m-%d %H:%M:%S"))
+        p = publication(titre, new_id, contenu, date_creation.strftime("%Y-%m-%d %H:%M:%S"), new_author_id, new_forum_id, listeCommentaires)
         self.publications.append(p)
         print(f"[Simulé] Sauvegarde de la nouvelle publication: {p}")
 
@@ -137,7 +144,7 @@ class BD:
             with open('src/pyforum/data/publications.json', 'w', encoding='utf-8') as fichier:
                 json.dump(data, fichier, ensure_ascii = False, indent = 4)
         
-    def creer_commentaire(self, id: str, auteur_id: str, contenu: str, publication_id: str):
+    def creer_commentaire(self, id: str, contenu: str):
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer un commentaire
@@ -157,15 +164,15 @@ class BD:
     
     def sauvegardeDesCommentaires(self):
 
-        champs = ["identifiant", "identifiant de l'auteur", "contenu", "identifiant de la publication"]
-        données = [p.to_dict() for p in self.publications]
+        champs = ["id", "id auteur", "contenu", "id publications"]
+        données = [c.to_dict() for c in self.commentaires]
 
-        identifiants_connus = [str(p["identifiant"]) for p in données]
+        identifiants_connus = [str(c["id"]) for c in données]
 
         with open('src/pyforum/data/commentairesInitiales.csv', 'r', newline='', encoding='utf-8') as fichierInitiale:
             commentairesInitiaux = (csv.DictReader(fichierInitiale))
             for commentaires in commentairesInitiaux:
-                if str(commentaires['identifiant']) not in identifiants_connus:
+                if str(commentaires["id"]) not in identifiants_connus:
                     données.append(commentaires)
             
         with open('src/pyforum/data/commentaires.csv', 'w', newline='', encoding='utf-8') as fichier:
