@@ -1,6 +1,7 @@
 # Importation des classes nécessaires
 from time import sleep
-
+from datetime import datetime
+from pyforum.bd import BD
 
 
 def liste_vide ():
@@ -19,15 +20,16 @@ def afficher_menu():
     print("2. Créer un forum")
     print("3. Créer une publication")
     print("4. Ajouter un commentaire à une publication")
-    print("5. accédée a un forum")
-    print("6. Quitter")
+    print("5. accédée a un forum ou une publication")
+    print("6. Rejoindre un forum")
+    print("7. Quitter")
     
 
 
 def main():
     print ("hello")
     # Initialisation de la base de données
-    'db = BD() '
+    db = BD() 
     
     
 
@@ -49,10 +51,16 @@ def main():
             print ( "voulez vous continuer ? (saisir oui/non) ")
             reponse = input("Réponse : ")
             while reponse == "oui":
-    
+
                 print ("Veuillez entrer les informations suivantes :")
-                print (cree_utilisateur)
-                print('votre compte utilisateur a été créé avec succès!')
+                username = input("Entrez le nom d'utilisateur:")
+                adresseCourriel = input("Entrez l'adresse courriel de l'utilisateur:")
+                motDePasse = input("Entrez le  mot de passe pour cet utilisateur:")
+                listeForums = [input("Entrez les forums de cette utilisateur:")]
+
+                db.creer_utilisateur(username = username, adresseCourriel=adresseCourriel, motDePasse=motDePasse, listeForums=listeForums)
+                db.sauvegardeDutilisateurs()
+                #print('votre compte utilisateur a été créé avec succès!')
             if reponse == "non":
                 print (afficher_menu)
             
@@ -73,21 +81,17 @@ def main():
             reponse = input("Réponse : ")
             while reponse == "oui":
                 print ("Veuillez entrer les informations suivantes :")
-                print (cree_forum)
-                
+                nom = input("Entrez le nom du forum que vous voulez créer:")
+                description = input("Entrez la description du forum que vous voulez créer:")
+                listePublications = [input("Entrez les publications du forum que vous voulez créer:")]
+                print (db.creer_forum(nom = nom, description = description, listePublications = listePublications))
+                db.sauvegardeDeForums()
                 print ("votre forum de discussion a été créé avec succès.")
+
             if reponse == "non":
                 print (afficher_menu)
             else :
                 print ( 'veuillez entrer une réponse valide. (oui/non)')
-            
-            
-
-            
-                
-
-                
-                
 
                 "# TODO: Ajouter ici la logique pour demander des informations à l'utilisateur"
                 "# TODO: Ajouter l'appel à la base de donnée pour créer le forum "
@@ -97,7 +101,18 @@ def main():
                 # Créer une publication
                 print("Bienvenue dans le module de création de publication")
                 print("Suivez les instructions suivante pour créer une publication.")
-                print (cree_publication)
+                titre = input("Entrez le titre de la publication que vous voulez créer:")
+                contenu = input("Entrez le contenu de la publication que vous voulez créer:")
+                listeCommentaires = []
+                print("Début de saisie des commentaires.")
+                
+                while True:
+                    commentaire = input("Entrez un commentaire (ou appuyez sur Entrée pour terminer) : ")
+                    if commentaire == "":
+                        break
+                    listeCommentaires.append(commentaire)
+                print(db.creer_publication(titre=titre, contenu=contenu, listeCommentaires=listeCommentaires))
+                db.sauvegardeDePublications()
                 print ("votre publication a été créée avec succès.")
                 
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
@@ -107,7 +122,10 @@ def main():
                 # Ajouter un commentaire
                 print ("Bienvenue dans le module d'ajout de commentaire")
                 print ("Suivez les instructions suivante pour ajouter un commentaire à une publication.")
-                print (cree_commentaire)
+                contenu = input("Entrez le ccommentaire que vous voulez publier:")
+                id = input("Entrez un l'identifiant de ce commentaire")
+                print (db.creer_commentaire(id = id, contenu = contenu))
+                db.sauvegardeDesCommentaires()
                 print ("votre commentaire a été ajouté avec succès.")
                 
 
@@ -121,24 +139,36 @@ def main():
                 print ("voulz chercher un forum ou une publication ? (saisir forum/publication)")
                 reponse = input ("Réponse : ")
                 while reponse != "forum" and reponse != "publication":
-                    print ("Veuillez entrer 'forum' ou 'publication'")
+                    print ("Veuillez entrer 'forum' ou 'publication")
                     reponse = input ("Réponse : ")
             
                 if reponse == "forum":
-                    print (obtenir_forum_par_nom)
+                    print (db.obtenir_forum_par_nom)
 
                     print ("vous avez rejoint ce forum avec succès.")
 
                 elif reponse == "publication":
-                    print (obtenir_publication_par_titre)
-                    print ("Veuillez entrer le nom de la publication que vous souhaitez rejoindre.")        
-                print (cree_joindre_forum) 
-                print ("vous avez rejoint ces forums avec succès.")
-                print 
+                    print (db.obtenir_publication_par_titre)
+                    
+                 
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
                 # TODO: Ajouter les appels à la base de donnée pour ajouter l'utilisateur au forum
-
         elif choix == '6':
+                        # Rejoindre un forum
+                        print("Bienvenue dans le module de rejoindre un forum")
+                        print("Suivez les instructions suivante pour rejoindre un forum.")
+                        print ("voulez vous rejoindre un forum ? (saisir oui/non)")
+                        print ("vous avez rejoint ce forum avec succès.")
+                        reponse = input("Réponse : ")
+                        while reponse == "oui":
+                            print (mettre_a_jour_forum)
+                            break
+                        else:
+                             return (main)
+                            
+                       
+                        
+        elif choix == '7':
                 # Quitter le programme
                 print("\nMerci d'avoir utilisé PyForum. À bientôt!")
                 break
@@ -149,3 +179,6 @@ def main():
         sleep(1)  # Pause de 1 secondes pour rendre l'interface plus agréable
 if __name__ == "__main__":
     main().main()  # Appelle la méthode `main()` de la classe `main`
+
+
+    

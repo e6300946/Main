@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
     {
         "id": 1,
         "username": "alice",
@@ -7,3 +8,7 @@
         "liste de forums": ["cinema", "musique"]
     }
 ]
+=======
+
+]
+>>>>>>> branche-tony
