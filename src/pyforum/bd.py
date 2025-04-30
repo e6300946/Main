@@ -2,15 +2,10 @@
 #import des modules
 import json
 import csv
-from datetime import datetime
 
 #import des classes
 from pyforum.utilisateur import Utilisateur
 from pyforum.forum import Forum
-from pyforum.publication import publication
-from pyforum.commentaire import Commentaire
-
-
 
 
 class BD:
@@ -20,8 +15,8 @@ class BD:
         """Constructeur de la classe permettant de gérer les différents attributs de la classe base de données"""
         self.utilisateurs: list[Utilisateur] = []
         self.forums: list[Forum] = []
-        self.publications: list[publication] = []
-        self.commentaires: list[Commentaire] = []
+        self.publications = []
+        self.commentaires = []
         self.utilisateurs_forums = {}
         print("Base de données initialisée.")
 
@@ -39,9 +34,9 @@ class BD:
         new_id = max([u.id for u in self.utilisateurs], default=0) + 1
 
         # Instancier un nouvel utilisateur et l'ajouter à la liste
-        u = Utilisateur(new_id, username, adresseCourriel, motDePasse, listeForums)
+        u = Utilisateur(new_id, username, adresseCourriel, motDePasse, listeForums = [])
         self.utilisateurs.append(u)
-        #print(f"[Simulé] Sauvegarde du nouveau utilisateur: {u}")
+        print(f"[Simulé] Sauvegarde du nouveau utilisateur: {u}")
 
         # Retourner l'utilisateur créé
         return u
@@ -52,31 +47,48 @@ class BD:
                 return u
     
     def sauvegardeDutilisateurs(self):
-        for u in self.utilisateurs:
-            with open('src/pyforum/data/utilisateurs.json', 'r', encoding='utf-8') as fichier:
-                data = json.load(fichier)
-            
-        # Vérifier que data est une liste 
-            if not isinstance(data, list):
-                data = []
-
-        data.append(u.to_dict())
-            
-        with open('src/pyforum/data/utilisateurs.json', 'w', encoding='utf-8') as fichier:
-                json.dump(data, fichier, ensure_ascii = False, indent = 4)
+        with open('src/pyforum/utilisateurs.json', 'r', encoding='utf-8') as fichier:
+            data = json.load(fichier)
+        
+        
+        nouvelutilisateur = self.creer_utilisateur(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
+        data.append(nouvelutilisateur.to_dict())
+        with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+            json.dump(data, fichier, ensure_ascii = False, indent = 4)
 
    
 
-    def creer_forum(self, nom: str, listePublications: list, description: str) -> Forum:
+    def creer_forum(self, nom: str, id: str, listePublications: list, description: str) -> Forum:
         #                ^^^^^^
         #                Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer un forum
         if nom in [f.nom for f in self.forums]:
             print(f"[Simulé] Le forum {nom} existe déjà.")
-            
+            return
  
-    # Créer un nouvel identifiant pour le forum
+    # Créer un nouvel identifiant pour l'utilisateur
         new_id = max([f.id for f in self.forums], default=0) + 1
+
+    # Instancier un nouvel utilisateur et l'ajouter à la liste
+        f = Forum(new_id, nom, listePublications, description)
+        self.forums.append(f)
+        print(f"[Simulé] Sauvegarde du nouveau forum: {f}")
+
+        # Retourner le forum créé
+        return f
+    
+    
+    def sauvegardeDeForums(self):
+        with open('src/pyforum/utilisateurs.json', 'r', encoding='utf-8') as fichier:
+            data = json.load(fichier)
+        
+        
+        nouveauForum = self.creer_forum(username="toto", adresseCourriel="toto@gmail.com", motDePasse="loltruc", listeForums=["animeau","finances","voitures"])
+        data.append(nouveauForum.to_dict())
+        with open('src/pyforum/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+            json.dump(data, fichier, ensure_ascii = False, indent = 4)
+
+
 
     # Instancier un nouveau forum et l'ajouter à la liste
         f = Forum(new_id, nom, listePublications, description)
