@@ -7,7 +7,11 @@ class publication():
         self.date_creation = date_creation
         self.identifiantAuteur = identifiantAuteur
         self.identifiantForum = identifiantForum
+<<<<<<< HEAD
         self.listeCommentaires = listeCommentaires
+=======
+        self.listeCommentaires = []
+>>>>>>> main
 
 
     def __str__(self):

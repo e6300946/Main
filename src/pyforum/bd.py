@@ -56,9 +56,19 @@ class BD:
             with open('src/pyforum/data/utilisateurs.json', 'r', encoding='utf-8') as fichier:
                 data = json.load(fichier)
             
+<<<<<<< HEAD
             
             data.append(u.to_dict())
             with open('src/pyforum/data/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+=======
+        # Vérifier que data est une liste 
+            if not isinstance(data, list):
+                data = []
+
+        data.append(u.to_dict())
+            
+        with open('src/pyforum/data/utilisateurs.json', 'w', encoding='utf-8') as fichier:
+>>>>>>> main
                 json.dump(data, fichier, ensure_ascii = False, indent = 4)
 
    
@@ -85,6 +95,7 @@ class BD:
     
     def sauvegardeDeForums(self):
         for f in self.forums:
+<<<<<<< HEAD
             with open('src\pyforum\data\forums.json', 'r', encoding='utf-8') as fichier:
                 data = json.load(fichier)
             
@@ -96,6 +107,22 @@ class BD:
 
 
     def creer_publication(self, titre: str, contenu: str, identifiantAuteur :str , identifiantForum :str, listeCommentaires :list, date_creation = datetime.now,):
+=======
+            with open('src/pyforum/data/forums.json', 'r', encoding='utf-8') as fichier:
+                data = json.load(fichier)
+            # Vérifier que data est une liste
+            if not isinstance(data, list):
+                data = []
+            
+        data.append(f.to_dict())
+        with open('src/pyforum/data/forums.json', 'w', encoding='utf-8') as fichier:
+            json.dump(data, fichier, ensure_ascii = False, indent = 4)
+
+
+
+
+    def creer_publication(self, titre: str, contenu: str, listeCommentaires: list, date_creation=datetime.now()):
+>>>>>>> main
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer une publication
@@ -103,6 +130,7 @@ class BD:
             print(f"[Simulé] La publication {titre} est déjà publiée.")
             return
         
+<<<<<<< HEAD
         
         #créer un nouvel identifiant pour les publications
         new_id = max([p.id for p in self.publications], default=0) + 1
@@ -113,11 +141,33 @@ class BD:
         self.publications.append(p)
         print(f"[Simulé] Sauvegarde de la nouvelle publication: {p}")
 
+=======
+        while True:
+            commentaire = input("Entrez un commentaire (ou appuyez sur Entrée pour terminer) :")
+            if commentaire == "":
+                break
+            listeCommentaires.append(commentaire)
+            
+
+        #créer un nouvel identifiant pour les publications
+        new_id = max([p.identifiant for p in self.publications], default=0) + 1
+        new_author_id = max([p.identifiantAuteur for p in self.publications], default=0) + 1
+        new_forum_id = max([p.identifiantForum for p in self.publications], default=0) + 1
+
+        #ajout de la date de création
+        date_creation= datetime.now()
+        # Instancier une nouvelle publication et l'ajouter à la liste
+        p = publication(titre, new_id, contenu, date_creation.strftime("%Y-%m-%d %H:%M:%S"), new_author_id, new_forum_id, listeCommentaires)
+        self.publications.append(p)
+        print(f"[Simulé] Sauvegarde de la nouvelle publication: {p}")
+
+>>>>>>> main
         # Retourner la nouvelle publication créée
         return p
     
     def sauvegardeDePublications(self):
         for p in self.publications:
+<<<<<<< HEAD
             with open('src\pyforum\data\publications.json', 'r', encoding='utf-8') as fichier:
                 data = json.load(fichier)
             
@@ -127,6 +177,19 @@ class BD:
                 json.dump(data, fichier, ensure_ascii = False, indent = 4)
         
     def creer_commentaire(self, id: str, auteur_id: str, contenu: str, publication_id: str):
+=======
+            with open('src/pyforum/data/publications.json', 'r', encoding='utf-8') as fichier:
+                data = json.load(fichier)
+            
+            if not isinstance(data, list):
+                data = []
+
+            data.append(p.to_dict())
+            with open('src/pyforum/data/publications.json', 'w', encoding='utf-8') as fichier:
+                json.dump(data, fichier, ensure_ascii = False, indent = 4)
+        
+    def creer_commentaire(self, id: str, contenu: str):
+>>>>>>> main
         #                       ^^^^^^^^^^^
         #                       Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour créer un commentaire
@@ -146,6 +209,7 @@ class BD:
     
     def sauvegardeDesCommentaires(self):
 
+<<<<<<< HEAD
         champs = ["identifiant", "identifiant de l'auteur", "contenu", "identifiant de la publication"]
         données = [p.to_dict() for p in self.publications]
 
@@ -158,6 +222,20 @@ class BD:
                     données.append(commentaires)
             
         with open('src\pyforum\data\commentaires.csv', 'w', newline='', encoding='utf-8') as fichier:
+=======
+        champs = ["id", "id auteur", "contenu", "id publications"]
+        données = [c.to_dict() for c in self.commentaires]
+
+        identifiants_connus = [str(c["id"]) for c in données]
+
+        with open('src/pyforum/data/commentairesInitiales.csv', 'r', newline='', encoding='utf-8') as fichierInitiale:
+            commentairesInitiaux = (csv.DictReader(fichierInitiale))
+            for commentaires in commentairesInitiaux:
+                if str(commentaires["id"]) not in identifiants_connus:
+                    données.append(commentaires)
+            
+        with open('src/pyforum/data/commentaires.csv', 'w', newline='', encoding='utf-8') as fichier:
+>>>>>>> main
             écrivain = csv.DictWriter(fichier, fieldnames=champs)
             écrivain.writeheader()
             écrivain.writerows(données)

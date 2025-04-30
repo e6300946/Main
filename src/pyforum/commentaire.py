@@ -12,4 +12,8 @@ class Commentaire:
 
     def to_dict(self):
         """Cette méthode permet d'ajouter les attributs de la classe commentaire dans un dictionnaire"""
+<<<<<<< HEAD
         return {"id":self.id, "identifiant de l'auteur":self.auteur_id, "adresse Courriel":self.contenu, "publications":self.publication_id}
+=======
+        return {"id":self.id, "id auteur":self.auteur_id, "contenu":self.contenu, "id publications":self.publication_id}
+>>>>>>> main

@@ -85,6 +85,10 @@ def main():
                 description = input("Entrez la description du forum que vous voulez créer:")
                 listePublications = [input("Entrez les publications du forum que vous voulez créer:")]
                 print (db.creer_forum(nom = nom, description = description, listePublications = listePublications))
+<<<<<<< HEAD
+=======
+                db.sauvegardeDeForums()
+>>>>>>> main
                 print ("votre forum de discussion a été créé avec succès.")
 
             if reponse == "non":
@@ -102,7 +106,20 @@ def main():
                 print("Suivez les instructions suivante pour créer une publication.")
                 titre = input("Entrez le titre de la publication que vous voulez créer:")
                 contenu = input("Entrez le contenu de la publication que vous voulez créer:")
+<<<<<<< HEAD
                 print (db.creer_publication(titre = titre, contenu = contenu, date_creation= datetime.now()))
+=======
+                listeCommentaires = []
+                print("Début de saisie des commentaires.")
+                
+                while True:
+                    commentaire = input("Entrez un commentaire (ou appuyez sur Entrée pour terminer) : ")
+                    if commentaire == "":
+                        break
+                    listeCommentaires.append(commentaire)
+                print(db.creer_publication(titre=titre, contenu=contenu, listeCommentaires=listeCommentaires))
+                db.sauvegardeDePublications()
+>>>>>>> main
                 print ("votre publication a été créée avec succès.")
                 
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
@@ -112,7 +129,14 @@ def main():
                 # Ajouter un commentaire
                 print ("Bienvenue dans le module d'ajout de commentaire")
                 print ("Suivez les instructions suivante pour ajouter un commentaire à une publication.")
+<<<<<<< HEAD
                 print (db.creer_commentaire)
+=======
+                contenu = input("Entrez le ccommentaire que vous voulez publier:")
+                id = input("Entrez un l'identifiant de ce commentaire")
+                print (db.creer_commentaire(id = id, contenu = contenu))
+                db.sauvegardeDesCommentaires()
+>>>>>>> main
                 print ("votre commentaire a été ajouté avec succès.")
                 
 
@@ -130,15 +154,20 @@ def main():
                     reponse = input ("Réponse : ")
             
                 if reponse == "forum":
-                    print (obtenir_forum_par_nom)
+                    print (db.obtenir_forum_par_nom)
 
                     print ("vous avez rejoint ce forum avec succès.")
 
                 elif reponse == "publication":
+<<<<<<< HEAD
                     print (obtenir_publication_par_titre)
                     print ("Veuillez entrer le nom de la publication que vous souhaitez rejoindre.")        
                 print (cree_joindre_forum) 
                 print ("vous avez rejoint ces forums avec succès.")
+=======
+                    print (db.obtenir_publication_par_titre)
+                    
+>>>>>>> main
                  
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
                 # TODO: Ajouter les appels à la base de donnée pour ajouter l'utilisateur au forum
