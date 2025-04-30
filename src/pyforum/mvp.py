@@ -36,11 +36,11 @@ def main():
     while True:
         afficher_menu()
         print ("\n BIENVENUE SUR PYFORUM")
-        choix = input("Veulliez choisir une option (1-6): ")
+        choix = input("Veulliez choisir une option (1-7): ")
         # Demander à l'utilisateur de choisir une option
-        while choix not in ['1', '2', '3', '4', '5', '6']:
-            print ("Veuillez choisir une option valide (1-6)")
-            choix = input("Veulliez choisir une option (1-6): ")
+        while choix not in ['1', '2', '3', '4', '5', '6', '7']:
+            print ("Veuillez choisir une option valide (1-7)")
+            choix = input("Veulliez choisir une option (1-7): ")
         
 
         if choix == '1':
@@ -139,24 +139,19 @@ def main():
 
                 elif reponse == "publication":
                     print (obtenir_publication_par_titre)
-                    print ("Veuillez entrer le nom de la publication que vous souhaitez rejoindre.")        
-                print (cree_joindre_forum) 
-                print ("vous avez rejoint ces forums avec succès.")
+                    print
                  
                 # TODO: Ajouter ici la logique pour demander des informations à l'utilisateur
                 # TODO: Ajouter les appels à la base de donnée pour ajouter l'utilisateur au forum
+      
         elif choix == '6':
-                        # Rejoindre un forum
-                        print("Bienvenue dans le module de rejoindre un forum")
-                        print("Suivez les instructions suivante pour rejoindre un forum.")
-                        print ("voulez vous rejoindre un forum ? (saisir oui/non)")
-                        print ("vous avez rejoint ce forum avec succès.")
-                        reponse = input("Réponse : ")
-                        while reponse == "oui":
-                            print (mettre_a_jour_forum)
-                            break
-                        else:
-                             return (main)
+            print("Bienvenue dans le module de mise à jour d'un forum.")
+            forum_id = int(input("Entrez l'ID du forum que vous souhaitez modifier : "))
+            nouveau_nom = input("Entrez le nouveau nom du forum : ")
+            db.mettre_a_jour_forum(forum_id=forum_id, nouveau_nom=nouveau_nom)
+                                # Rejoindre un forum
+                        
+                        
                             
                        
                         
@@ -169,8 +164,5 @@ def main():
                 print("Option invalide. Veuillez essayer à nouveau.")
 
         sleep(1)  # Pause de 1 secondes pour rendre l'interface plus agréable
-if __name__ == "__main__":
-    main().main()  # Appelle la méthode `main()` de la classe `main`
-
-
-    
+    if __name__ == "__main__":
+        main().main()  # Appelle la méthode `main()` de la classe `main`

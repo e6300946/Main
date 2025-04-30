@@ -187,7 +187,53 @@ class BD:
             if p.titre == titre_publication:
                 return p
 
-    def mettre_a_jour_forum(self, forum):
+    
+    
+    
+    def mettre_a_jour_forum(self, forum_id: int, nouveau_nom: str):
+        """
+        Permet de modifier le nom d'un forum existant en fonction de son ID.
+        """
+        chemin_fichier = 'src/pyforum/data/forums.json'  # Chemin fixe vers le fichier JSON
+
+        # Charger les données du fichier JSON
+        try:
+            with open(chemin_fichier, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            print("Erreur : Le fichier forums.json est introuvable.")
+            return
+        except json.JSONDecodeError:
+            print("Erreur : Le fichier forums.json contient des données invalides.")
+            return
+
+        # Vérifie que le fichier contient une liste
+        if not isinstance(data, list):
+            print("Le fichier JSON ne contient pas une liste valide.")
+            return
+
+        # Chercher le forum correspondant
+        forum_trouve = None
+        for forum in data:
+            if forum.get("id") == forum_id:
+                forum_trouve = forum
+                break
+
+        if not forum_trouve:
+            print(f"Erreur : Aucun forum trouvé avec l'ID {forum_id}.")
+            return
+
+        # Mettre à jour le nom du forum
+        ancien_nom = forum_trouve["nom"]
+        forum_trouve["nom"] = nouveau_nom
+
+        # Sauvegarder les modifications dans le fichier JSON
+        with open(chemin_fichier, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+        print(f"Le forum '{ancien_nom}' a été renommé en '{nouveau_nom}'.")
+
+
         #                         ^^^^^^
         #                         Vous devez ajouter les autres paramètres requis
         # TODO: Implanter la logique pour mettre à jour le forum et retourner le forum mis à jour
