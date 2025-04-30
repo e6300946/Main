@@ -1,14 +1,9 @@
 [
-<<<<<<< HEAD
     {
         "id": 1,
-        "username": "alice",
-        "adresse Courriel": "alice@example.com",
-        "motDePasse": "azerty",
-        "liste de forums": ["cinema", "musique"]
+        "username": "1",
+        "adresse Courriel": "1",
+        "motDePasse": "1",
+        "liste de forums": []
     }
 ]
-=======
-
-]
->>>>>>> branche-tony

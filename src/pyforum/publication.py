@@ -1,4 +1,5 @@
 class publication():
+    """Méthode permettant de gérer la classe publication"""
 
     def __init__(self, titre :str, identifiant :str, contenu :str, date_creation :str, identifiantAuteur :str, identifiantForum :str, listeCommentaires :list):
         self.titre = titre
@@ -11,6 +12,7 @@ class publication():
 
 
     def __str__(self):
+        """Méthode permettant d'afficher les attributs de la classe publication en format lisible"""
         return f"titre:{self.titre}, identifiant:{self.identifiant}, contenu:{self.contenu}, date de création:{self.date_creation}, identifiant de l'auteur:{self.identifiantAuteur}, identifiant forum:{self.identifiantForum}, liste de commentaires:{self.listeCommentaires}"
     
     def to_dict(self):

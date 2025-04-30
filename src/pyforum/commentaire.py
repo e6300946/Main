@@ -1,4 +1,5 @@
 class Commentaire:
+    """Méthode permettant de gérer la classe commentaire"""
     def __init__(self, id: str, auteur_id: str, contenu: str, publication_id: str):
         self.id = id
         self.auteur_id = auteur_id
